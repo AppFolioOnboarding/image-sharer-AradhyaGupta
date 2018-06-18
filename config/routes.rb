@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   resources :images, only: %i[new create show index destroy]
 
   get 'tags/:tag', to: 'images#index', as: :tag
+  root 'application#home'
+
+  resources :feedbacks, only: [:new]
 end
