@@ -1,0 +1,13 @@
+<% if flash.empty? %>
+    <%= image_tag(@image.url) %>
+
+
+
+
+<% else %>
+    <ul>
+    <% flash.each do |message| %>
+        <li><%= message %></li>
+    <% end %>
+    </ul>
+<% end %>
