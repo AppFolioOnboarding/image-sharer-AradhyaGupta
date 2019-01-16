@@ -1,0 +1,20 @@
+<h1>Upload Image URL!</h1>
+
+<%= form_for :image, url: images_path do |f| %>
+    <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+    &nbsp&nbsp
+    <%= f.label :name, 'Image URL' %>
+    <%= f.text_field :url %>
+
+    <% if @image.errors.any? %>
+        <% @image.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+    <% end %>
+    <br>
+
+    &nbsp&nbsp&nbsp&nbsp
+    <%= f.submit %>
+<% end %>
