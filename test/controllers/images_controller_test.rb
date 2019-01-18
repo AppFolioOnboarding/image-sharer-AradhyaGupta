@@ -38,4 +38,31 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_select 'div', text: 'The action could not be completed'
     end
   end
+
+  def test_index__no_image
+    Image.destroy_all
+    get images_path
+    assert_response :ok
+    assert_select 'h1', 'Images'
+    assert_select 'img', count: 0
+  end
+
+  def test_index
+    Image.create!(url: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png')
+    get images_path
+    assert_response :ok
+    assert_select 'h1', 'Images'
+  end
+
+  def test_index__correct_order
+    image_old = Image.create!(url: 'https://www.abc.com', created_at: 2.days.ago)
+    image_new = Image.create!(url: 'https://www.xyz.com', created_at: 1.day.ago)
+
+    get images_path
+
+    assert_response :ok
+
+    assert_select "li:first-of-type img[src='#{image_new.url}']", count: 1
+    assert_select "li:last-of-type img[src='#{image_old.url}']", count: 1
+  end
 end

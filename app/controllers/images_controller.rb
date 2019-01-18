@@ -20,4 +20,8 @@ class ImagesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     flash.now[:error] = 'The page does not exist'
   end
+
+  def index
+    @images = Image.all.order('created_at Desc')
+  end
 end
