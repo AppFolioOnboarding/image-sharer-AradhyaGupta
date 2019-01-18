@@ -20,4 +20,9 @@ class ImageTest < ActiveSupport::TestCase
 
     assert_predicate image, :valid?
   end
+  def test_create_tags
+    image = Image.create!(url: 'https://www.abc.com', created_at: 2.days.ago, tag_list: %w[ngh abc])
+
+    assert_equal image.tag_list, %w[ngh abc]
+  end
 end
