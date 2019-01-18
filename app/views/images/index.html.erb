@@ -1,0 +1,10 @@
+<h1> Images </h1>
+<% stylesheet_link_tag "images.css" %>
+<ul>
+<% @images.each do |image| %>
+    <li>
+      <%= image_tag(image.url, class: 'index-page_image') %>
+    </li>
+    <br><br>
+<% end %>
+</ul>
