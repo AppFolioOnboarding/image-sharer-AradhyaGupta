@@ -15,6 +15,8 @@
     <% end %>
     <br>
 
+    <%= f.label :name, 'Image Tags' %>
+    <%= f.text_field :tag_list, value: @image.tag_list.to_s %>
     &nbsp&nbsp&nbsp&nbsp
     <%= f.submit %>
 <% end %>
