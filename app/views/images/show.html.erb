@@ -1,27 +1,17 @@
-<% if flash.empty? %>
-    <%= image_tag(@image.url) %>
-    <br>
+<%= render partial: 'images/flash' %>
 
-    <% if @image.tag_list.present? %>
+<%= image_tag(@image.url) %>
+<br>
 
-        <h4>Tag List</h4>
-        <ul>
-          <% @image.tag_list.each do |tag| %>
+<% if @image.tag_list.present? %>
 
-              <li><%= tag %></li>
+  <h4>Tag List</h4>
+  <ul>
+    <% @image.tag_list.each do |tag| %>
 
-          <% end %>
+      <li><%= tag %></li>
 
-        </ul>
     <% end %>
-<% else %>
 
-    <ul>
-      <% flash.each do |msg| %>
-          <li>
-            <%= msg %>
-          </li>
-      <% end %>
-    </ul>
-
+  </ul>
 <% end %>
