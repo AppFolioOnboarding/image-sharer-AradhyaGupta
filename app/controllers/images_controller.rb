@@ -18,7 +18,7 @@ class ImagesController < ApplicationController
   def show
     @image = Image.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    flash.now[:error] = 'The page does not exist'
+    flash.now[:danger] = 'The page does not exist'
   end
 
   def index

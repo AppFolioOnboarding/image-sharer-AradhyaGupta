@@ -17,7 +17,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_show_image_not_found
     get image_path(-1)
     assert_select 'img', count: 0
-    assert_equal 'The page does not exist', flash[:error]
+    assert_equal 'The page does not exist', flash[:danger]
   end
 
   def test_create_valid
