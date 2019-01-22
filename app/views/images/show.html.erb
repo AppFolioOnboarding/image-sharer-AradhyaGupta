@@ -1,17 +1,9 @@
 <%= render partial: 'images/flash' %>
 
-<%= image_tag(@image.url) %>
-<br>
-
-<% if @image.tag_list.present? %>
-
-  <h4>Tag List</h4>
+<% if @image.present? %>
+  <%= image_tag(@image.url) %>
+  <br>
   <ul>
-    <% @image.tag_list.each do |tag| %>
-
-      <li><%= tag %></li>
-
-    <% end %>
-
+    <%= render partial: 'images/tag_list', locals: {image: @image} %>
   </ul>
 <% end %>
