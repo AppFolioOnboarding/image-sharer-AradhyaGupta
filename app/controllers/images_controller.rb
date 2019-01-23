@@ -22,6 +22,11 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.all.order('created_at Desc')
+    if params[:tag]
+      flash.now[:danger] = 'The tag does not exist' if Image.tagged_with(params[:tag]).empty?
+      @images = Image.tagged_with(params[:tag]).order('created_at Desc')
+    else
+      @images = Image.all.order('created_at Desc')
+    end
   end
 end
