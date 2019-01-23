@@ -1,9 +1,7 @@
 <h1>Upload Image URL!</h1>
 
 <%= form_for :image, url: images_path do |f| %>
-    <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
+  <%= render partial:'images/flash' %>
     &nbsp&nbsp
     <%= f.label :name, 'Image URL' %>
     <%= f.text_field :url %>

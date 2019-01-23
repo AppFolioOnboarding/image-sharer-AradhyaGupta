@@ -17,7 +17,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_show_image_not_found
     get image_path(-1)
     assert_select 'img', count: 0
-    assert_equal 'The page does not exist', flash[:error]
+    assert_equal 'The page does not exist', flash[:danger]
   end
 
   def test_create_valid
@@ -111,5 +111,30 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'h4', count: 1
     assert_select 'img', count: 1
+  end
+
+  def test_index_search_by_tag_has_photos
+    Image.create!(url: 'https://www.abc.com', created_at: 2.days.ago, tag_list: ['ngh'])
+    Image.create!(url: 'https://www.def.com', created_at: 4.days.ago, tag_list: ['ngh'])
+    Image.create!(url: 'https://www.ghi.com', created_at: 3.days.ago, tag_list: ['klm'])
+
+    get tag_path('ngh')
+    assert_response :ok
+    assert_select 'li a', count: 2
+
+    get tag_path('klm')
+    assert_response :ok
+    assert_select 'li a', count: 1
+
+    get tag_path('abc')
+    assert_response :ok
+    assert_select 'li a', count: 0
+  end
+
+  def test_index_search_by_tag_has_no_photos
+    get tag_path('abc')
+    assert_response :ok
+    assert_select 'li a', count: 0
+    assert_equal 'The tag does not exist', flash[:danger]
   end
 end
