@@ -1,20 +1,22 @@
 <h1>Upload Image URL!</h1>
 
-<%= form_for :image, url: images_path do |f| %>
-  <%= render partial:'images/flash' %>
-    &nbsp&nbsp
-    <%= f.label :name, 'Image URL' %>
-    <%= f.text_field :url %>
+<%= form_for :image, url: images_path, html: {class: 'js-form-group'} do |f| %>
+  <%= render partial: 'images/flash' %>
+  &nbsp&nbsp
+  <%= f.label :name, 'Image URL' %>
+  <%= f.text_field :url %>
 
-    <% if @image.errors.any? %>
-        <% @image.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-        <% end %>
-    <% end %>
-    <br>
+  <% if @image.errors.any? %>
+    <ul class = 'js-help-block'>
+      <% @image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <br>
 
-    <%= f.label :name, 'Image Tags' %>
-    <%= f.text_field :tag_list, value: @image.tag_list.to_s %>
-    &nbsp&nbsp&nbsp&nbsp
-    <%= f.submit %>
+  <%= f.label :name, 'Image Tags' %>
+  <%= f.text_field :tag_list, value: @image.tag_list.to_s %>
+  &nbsp&nbsp&nbsp&nbsp
+  <%= f.submit %>
 <% end %>

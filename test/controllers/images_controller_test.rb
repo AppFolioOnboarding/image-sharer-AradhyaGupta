@@ -120,15 +120,15 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get tag_path('ngh')
     assert_response :ok
-    assert_select 'li a', count: 2
+    assert_select '.js-tag_link', count: 2
 
     get tag_path('klm')
     assert_response :ok
-    assert_select 'li a', count: 1
+    assert_select '.js-tag_link', count: 1
 
     get tag_path('abc')
     assert_response :ok
-    assert_select 'li a', count: 0
+    assert_select '.js-tag_link', count: 0
   end
 
   def test_index_search_by_tag_has_no_photos
