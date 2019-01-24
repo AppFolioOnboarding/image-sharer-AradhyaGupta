@@ -28,6 +28,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         url: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png'
       } }
     end
+    assert_response :redirect
+    follow_redirect!
+    assert_select '.alert.alert-success', 'You have successfully added an image.'
   end
 
   def test_create_invalid

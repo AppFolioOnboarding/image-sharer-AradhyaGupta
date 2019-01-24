@@ -7,6 +7,7 @@ class ImagesController < ApplicationController
     @image = Image.new(params.require(:image).permit(:url, :tag_list))
 
     if @image.save
+      flash[:success] = 'You have successfully added an image.'
       redirect_to image_path(@image)
 
     else
