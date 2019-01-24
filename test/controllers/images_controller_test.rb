@@ -12,6 +12,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image)
     assert_response :ok
     assert_select 'img', count: 1
+    assert_select '.js-delete_btn[data-method = "delete"]', count: 1
+
 
     assert_select '.js-index_page', count: 1
   end
@@ -20,6 +22,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(-1)
     assert_select 'img', count: 0
     assert_equal 'The page does not exist', flash[:danger]
+    assert_select '.js-delete_btn', count: 0
   end
 
   def test_create_valid
@@ -50,6 +53,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'h1', 'Images'
     assert_select 'img', count: 0
+    assert_select '.js-delete_btn', count: 0
   end
 
   def test_index
@@ -57,6 +61,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get images_path
     assert_response :ok
     assert_select 'h1', 'Images'
+    assert_select '.js-delete_btn', count: 1
   end
 
   def test_index__correct_order
@@ -69,6 +74,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "li:first-of-type img[src='#{image_new.url}']", count: 1
     assert_select "li:last-of-type img[src='#{image_old.url}']", count: 1
+    assert_select '.js-delete_btn', count: 2
   end
 
   def test_index_tag__correct_order
@@ -106,6 +112,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'h4', count: 0
     assert_select 'img', count: 1
+    assert_select '.js-delete_btn', count: 1
   end
 
   def test_show_with_tag
@@ -116,6 +123,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'h4', count: 1
     assert_select 'img', count: 1
+    assert_select '.js-delete_btn', count: 1
   end
 
   def test_index_search_by_tag_has_photos

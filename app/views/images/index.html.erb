@@ -7,6 +7,7 @@
   <% @images.each do |image| %>
     <li class = "js-image">
       <%= image_tag(image.url, class: 'index-page_image') %>
+      <%= link_to "Delete", image_path(image), method: :delete, data: {confirm: 'Are you sure?'}, class: 'js-delete_btn' %>
       <ul>
         <%= render partial: 'images/tag_list', locals: {image: image} %>
       </ul>
