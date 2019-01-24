@@ -7,3 +7,5 @@
     <%= render partial: 'images/tag_list', locals: {image: @image} %>
   </ul>
 <% end %>
+
+<%= button_to "Index Page", images_path, method: :get, class: 'js-index_page'%>

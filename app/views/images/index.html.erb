@@ -1,4 +1,6 @@
 <h1> Images </h1>
+<%= button_to "Add new image", new_image_path, method: :get, class: 'js-new_image' %>
+<%= button_to "Clear tag", images_path, method: :get, class: 'js-clear_tag' %>
 <% stylesheet_link_tag "images.css" %>
 <%= render partial:'images/flash' %>
 <ul class = "js-image_list">

@@ -12,6 +12,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image)
     assert_response :ok
     assert_select 'img', count: 1
+
+    assert_select '.js-index_page', count: 1
   end
 
   def test_show_image_not_found
@@ -129,6 +131,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get tag_path('abc')
     assert_response :ok
     assert_select '.js-tag_link', count: 0
+
+    assert_select '.js-new_image', count: 1
+    assert_select '.js-clear_tag', count: 1
   end
 
   def test_index_search_by_tag_has_no_photos
