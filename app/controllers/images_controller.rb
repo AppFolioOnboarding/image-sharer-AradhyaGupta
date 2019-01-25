@@ -30,4 +30,14 @@ class ImagesController < ApplicationController
       @images = Image.all.order('created_at Desc')
     end
   end
+
+  def destroy
+  begin
+    @image = Image.find(params[:id])
+    @image.destroy
+  rescue ActiveRecord::RecordNotFound
+  end
+    flash[:success] = 'You have successfully deleted an image.'
+    redirect_to images_path
+  end
 end

@@ -145,4 +145,23 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'li a', count: 0
     assert_equal 'The tag does not exist', flash[:danger]
   end
+
+  def test_delete_image
+    image = Image.create!(url: 'https://www.ghi.com', created_at: 3.days.ago, tag_list: ['klm'])
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(image)
+    end
+
+    assert_response :redirect
+    follow_redirect!
+    assert_select '.alert.alert-success', 'You have successfully deleted an image.'
+  end
+
+  def test_delete_image_invalid
+    delete image_path(-1)
+    assert_response :redirect
+    follow_redirect!
+    assert_select '.alert.alert-success', 'You have successfully deleted an image.'
+  end
 end
