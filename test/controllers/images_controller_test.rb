@@ -12,12 +12,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image)
     assert_response :ok
     assert_select 'img', count: 1
+    assert_select '.js-delete_btn[data-method = "delete"]', count: 1
+
+
+    assert_select '.js-index_page', count: 1
   end
 
   def test_show_image_not_found
     get image_path(-1)
     assert_select 'img', count: 0
     assert_equal 'The page does not exist', flash[:danger]
+    assert_select '.js-delete_btn', count: 0
   end
 
   def test_create_valid
@@ -26,6 +31,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         url: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png'
       } }
     end
+    assert_response :redirect
+    follow_redirect!
+    assert_select '.alert.alert-success', 'You have successfully added an image.'
   end
 
   def test_create_invalid
@@ -45,6 +53,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'h1', 'Images'
     assert_select 'img', count: 0
+    assert_select '.js-delete_btn', count: 0
   end
 
   def test_index
@@ -52,6 +61,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get images_path
     assert_response :ok
     assert_select 'h1', 'Images'
+    assert_select '.js-delete_btn', count: 1
   end
 
   def test_index__correct_order
@@ -64,6 +74,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "li:first-of-type img[src='#{image_new.url}']", count: 1
     assert_select "li:last-of-type img[src='#{image_old.url}']", count: 1
+    assert_select '.js-delete_btn', count: 2
   end
 
   def test_index_tag__correct_order
@@ -101,6 +112,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'h4', count: 0
     assert_select 'img', count: 1
+    assert_select '.js-delete_btn', count: 1
   end
 
   def test_show_with_tag
@@ -111,6 +123,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'h4', count: 1
     assert_select 'img', count: 1
+    assert_select '.js-delete_btn', count: 1
   end
 
   def test_index_search_by_tag_has_photos
@@ -120,15 +133,18 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get tag_path('ngh')
     assert_response :ok
-    assert_select 'li a', count: 2
+    assert_select '.js-tag_link', count: 2
 
     get tag_path('klm')
     assert_response :ok
-    assert_select 'li a', count: 1
+    assert_select '.js-tag_link', count: 1
 
     get tag_path('abc')
     assert_response :ok
-    assert_select 'li a', count: 0
+    assert_select '.js-tag_link', count: 0
+
+    assert_select '.js-new_image', count: 1
+    assert_select '.js-clear_tag', count: 1
   end
 
   def test_index_search_by_tag_has_no_photos
@@ -136,5 +152,24 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'li a', count: 0
     assert_equal 'The tag does not exist', flash[:danger]
+  end
+
+  def test_delete_image
+    image = Image.create!(url: 'https://www.ghi.com', created_at: 3.days.ago, tag_list: ['klm'])
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(image)
+    end
+
+    assert_response :redirect
+    follow_redirect!
+    assert_select '.alert.alert-success', 'You have successfully deleted an image.'
+  end
+
+  def test_delete_image_invalid
+    delete image_path(-1)
+    assert_response :redirect
+    follow_redirect!
+    assert_select '.alert.alert-success', 'You have successfully deleted an image.'
   end
 end
