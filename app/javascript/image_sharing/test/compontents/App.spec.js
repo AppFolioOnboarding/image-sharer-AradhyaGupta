@@ -12,10 +12,13 @@ describe('App', () => {
 
   it('should render sub-components', () => {
     const wrapper = mount(
-        <App stores = {[]}/>
+      <Provider stores={{feedbackStore: new FeedbackStore}}>
+        <App />
+      </Provider>
     );
 
     expect(wrapper.find('Header')).to.have.lengthOf(1);
     expect(wrapper.find('Footer')).to.have.lengthOf(1);
+    expect(wrapper.find('FeedbackForm')).to.have.lengthOf(1);
   });
 });
