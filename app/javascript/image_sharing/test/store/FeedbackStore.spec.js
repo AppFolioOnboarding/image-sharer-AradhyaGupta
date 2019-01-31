@@ -21,4 +21,9 @@ describe('FeedbackStore', () => {
     feedbackStore.setFeedback('Awesome!');
     expect(feedbackStore.feedback).to.equal('Awesome!');
   });
+
+  it('setAlertMessage', () => {
+    feedbackStore.setAlertMessage('Fail');
+    expect(feedbackStore.alertMessage).to.equal('Fail');
+  });
 });
